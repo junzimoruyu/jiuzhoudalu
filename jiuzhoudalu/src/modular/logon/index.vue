@@ -24,14 +24,22 @@ export default {
               },
               detail: {
                 valueAnimation: true,
-                formatter: '{value}'
+                formatter: '{value}km/h',
+                color:'auto'
               },
               data: [
                 {
                   value:0,
                   name: 'SCORE'
                 }
-              ]
+              ],
+              axisLine:{
+                show:true,
+                roundCap:true,
+                lineStyle:{
+                  color:[[0.3, '#CCFFCC'],[0.7,'#33CCFF'],[1,'#FF0000']]
+                }
+              },
             }
           ]
         },
@@ -63,7 +71,7 @@ export default {
             this.anxianum+=1
           }
         }else if(e.key==='ArrowDown'&&e.keyCode===40){
-          if(this.anxianum<0){
+          if(this.anxianum<1){
             this.anxianum=0            
           }else{
             this.anxianum-=1
@@ -78,11 +86,11 @@ export default {
           this.accelerator_man(num)
           return
         }
-        if((num>0&&num>10) || (num<0&&num<-10)){
-          console.log(num,'aaaaaaaaaaaaaaaaaaaa')
+        if((num>0&&num>40) || (num<0&&num<-40)){
+          console.log(num,'=======',this.anxianum,'this.anxianum','kkkkkkkkkkkkkkk',this.option.series[0].data[0].value)
           this.accelerator_kuai(num)
         }else{
-          console.log(num,'bbbbbbbbbbbbb')
+          console.log(num,'=======',this.anxianum,'this.anxianum','mmmmmmmmmmmmmmm',this.option.series[0].data[0].value)
           this.accelerator_man(num)
         }
       },150)
@@ -103,9 +111,13 @@ export default {
             if(val==this.option.series[0].data[0].value){return}
             this.option.series[0].data[0].value+=1
             if(val>0){
-              this.option.series[0].data[0].value+=4
+              this.option.series[0].data[0].value+=2
             }else{
-              this.option.series[0].data[0].value-=4
+              if(this.option.series[0].data[0].value<10){
+                this.option.series[0].data[0].value-=0.5
+              }else{
+                this.option.series[0].data[0].value-=2
+              }
             }
             this.echarts.setOption(this.option);
       // },150)
