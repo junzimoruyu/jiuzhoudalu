@@ -9,22 +9,13 @@ export default {
   name: 'logon',
   data() {
     return {
-      
-    };
-  },
-
-  mounted() {
-    this.accelerator()
-  },
-
-  methods: {
-    accelerator(){
-      let chartDom = document.getElementById('Dashboard');
-      this.$echarts.init(chartDom).setOption({
-        tooltip: {
-          formatter: '{a} <br/>{b} : {c}%'
-        },
-        series: [
+        maisu:0,
+        echarts:null,
+        option:{
+          tooltip: {
+            formatter: '{a} <br/>{b} : {c}%'
+          },
+          series: [
             {
               name: 'Pressure',
               type: 'gauge',
@@ -37,14 +28,87 @@ export default {
               },
               data: [
                 {
-                  value: 50,
+                  value:0,
                   name: 'SCORE'
                 }
               ]
             }
-        ]
+          ]
+        },
 
-      })
+        anxianum:0,
+
+        upsetTimeout:null,
+        downsetTimeout:null
+
+    };
+  },
+
+  mounted() {
+    this.accelerator()
+    this.keydown_fn()
+  },
+
+  methods: {
+    keydown_fn(){
+      
+      let chartDom = document.getElementById('Dashboard');
+      this.echarts = this.$echarts.init(chartDom);
+      this.echarts.setOption(this.option);
+      document.onkeydown=(e)=>{
+        if(e.key==='ArrowUp'&&e.keyCode===38){
+          if(this.anxianum>100){
+            this.anxianum=100            
+          }else{
+            this.anxianum+=1
+          }
+        }else if(e.key==='ArrowDown'&&e.keyCode===40){
+          if(this.anxianum<0){
+            this.anxianum=0            
+          }else{
+            this.anxianum-=1
+          }
+        }
+      }
+    },
+    accelerator(){
+      setInterval(()=>{
+        let num=this.anxianum-this.option.series[0].data[0].value
+        if(this.anxianum==0){
+          this.accelerator_man(num)
+          return
+        }
+        if((num>0&&num>10) || (num<0&&num<-10)){
+          console.log(num,'aaaaaaaaaaaaaaaaaaaa')
+          this.accelerator_kuai(num)
+        }else{
+          console.log(num,'bbbbbbbbbbbbb')
+          this.accelerator_man(num)
+        }
+      },150)
+    },
+    accelerator_man(val){
+        // setInterval(()=>{
+            if(val==this.option.series[0].data[0].value){return}
+            if(val>0){
+              this.option.series[0].data[0].value+=1
+            }else{
+              this.option.series[0].data[0].value-=1
+            }
+            this.echarts.setOption(this.option);
+        // },150)
+    },
+    accelerator_kuai(val){
+      // setInterval(()=>{
+            if(val==this.option.series[0].data[0].value){return}
+            this.option.series[0].data[0].value+=1
+            if(val>0){
+              this.option.series[0].data[0].value+=4
+            }else{
+              this.option.series[0].data[0].value-=4
+            }
+            this.echarts.setOption(this.option);
+      // },150)
     }
     
   },
@@ -56,10 +120,13 @@ export default {
 #logon{
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content:center;
+  align-items: center;
   #Dashboard{
-    width: 50%;
-    height: 50%;
-    border: 2px solid red;
+    width: 50vw;
+    height: 50vw;
+    // border: 2px solid red;
   }
 }
 </style>

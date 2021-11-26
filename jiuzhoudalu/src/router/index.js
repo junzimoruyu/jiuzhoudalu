@@ -13,14 +13,10 @@ const logon={
     //   console.log(resolve,'resolveresolve')
     //   require.ensure([], () => resolve(require('@/modular/logon/index')),'logon');
     // }
-    // component:(e) =>{
-    //   console.log(e)
-    //   return import(/* webpackChunkName: "group-foo" */ '@/modular/logon/index')
-
-    // }
-    component:resolve =>{
-      require(['@/modular/logon/index'], resolve)
-    } 
+    component:(e) => import(/* webpackChunkName: "group-foo" */ '@/modular/logon/index') 
+    // component:resolve =>{
+    //   require(['@/modular/logon/index'], resolve)
+    // } 
 }
 
 
