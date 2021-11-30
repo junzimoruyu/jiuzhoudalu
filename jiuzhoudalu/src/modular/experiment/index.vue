@@ -1,19 +1,10 @@
 <template>
   <div id="experiment">
     <div>
-      <!-- <el-tabs type="card" v-model="type" @tab-click="btn">
-        <el-tab-pane name="home" label="退出"></el-tab-pane>
-        <el-tab-pane name="msb" label="迈速标"></el-tab-pane>
-        <el-tab-pane name="bookshelf" label="书架实验"></el-tab-pane>
-      </el-tabs> -->
-
       <el-tabs type="card" v-model="type" @tab-click="btn">
         <el-tab-pane v-for="(item,index) in dataArr" :key="item.name" :name="item.name" :label="item.label">
         </el-tab-pane>
-
       </el-tabs>
-
-
     </div>
     <router-view></router-view>
   </div>
