@@ -3,10 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import * as echarts from 'echarts'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 //shiyan
-const arr = createApp(App)
-arr.use(store)
-arr.use(router)
-arr.config.globalProperties.$echarts = echarts
+const app = createApp(App)
+app.use(store)
+app.use(ElementPlus)
+app.use(router)
+app.config.globalProperties.$echarts = echarts
 
-arr.mount('#app')
+app.mount('#app')
