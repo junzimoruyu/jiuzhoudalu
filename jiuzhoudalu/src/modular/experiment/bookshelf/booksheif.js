@@ -62,14 +62,14 @@ export default {
   },
   mounted () {
     let dom=document.getElementById("jiazi")
-    console.log(dom)
-    this.dom_jiazi=dom.getBoundingClientRect()
+    this.dom_jiazi=dom
   },
   methods: {
     offsetNew(e){
       return {
-        x:mouse.client(e).x-this.dom_jiazi.left-1,
-        y:mouse.client(e).y-this.dom_jiazi.top-1
+        x:mouse.client(e).x-this.dom_jiazi.getBoundingClientRect().left-1,
+        y:mouse.client(e).y-this.dom_jiazi.getBoundingClientRect().top-1,
+        scrollLeft:this.dom_jiazi.scrollLeft
       }
     },
 
@@ -79,7 +79,6 @@ export default {
       // console.log(mouse.page(e),'page')
       // console.log(mouse.screen(e),'screen')
       // console.log(mouse.offset(e),'offset')
-      // console.log(this.dom_jiazi)
     },
     mouseup(e){//鼠标抬起
       // console.log(e,'mouseupmouseup')
@@ -103,11 +102,11 @@ export default {
 
       if(this.generateShuji.status){
         let obj=this.offsetNew(e)
-        this.Visual.left=obj.x-2
+        this.Visual.left=obj.x+obj.scrollLeft-2
         let a=parseInt(obj.y/100)
         this.Visual.top=a*100
 
-        this.positionObj.left=obj.x//添加位置
+        this.positionObj.left=obj.x+obj.scrollLeft//添加位置
         this.positionObj.tail=obj.x+this.form.width//尾部位置
 
         if(mouse.client(e).y>this.form.layer*100){
