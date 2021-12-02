@@ -6,6 +6,7 @@ export default {
       Visual:{
         left:0,
         top:0,
+        left1:0,
         display:false,
       },
 
@@ -43,7 +44,7 @@ export default {
     // 架子的宽和层
     layerStyle(){
       return {
-        display:this.generateShuji.status?'block':'none',
+        // display:this.generateShuji.status?'block':'none',
         width:this.generateShuji.shelfW+'px',
       }
     },
@@ -53,6 +54,7 @@ export default {
         // pointerEvents: 'none',
         width:this.generateShuji.width+"px",
         left:this.Visual.left+"px",
+        left1:this.Visual.left1+"px",
         top:this.Visual.top+"px",
         text:"默认",
         display:this.Visual.display?'block':'none',
@@ -61,7 +63,7 @@ export default {
 
   },
   mounted () {
-    let dom=document.getElementById("jiazi")
+    let dom=document.getElementById("juti_fn")
     this.dom_jiazi=dom
   },
   methods: {
@@ -69,7 +71,8 @@ export default {
       return {
         x:mouse.client(e).x-this.dom_jiazi.getBoundingClientRect().left-1,
         y:mouse.client(e).y-this.dom_jiazi.getBoundingClientRect().top-1,
-        scrollLeft:this.dom_jiazi.scrollLeft
+        scrollLeft:this.dom_jiazi.scrollLeft,
+        scrollTop:this.dom_jiazi.scrollTop,
       }
     },
 
@@ -79,44 +82,64 @@ export default {
       // console.log(mouse.page(e),'page')
       // console.log(mouse.screen(e),'screen')
       // console.log(mouse.offset(e),'offset')
+      console.log(this.offsetNew(e))
     },
     mouseup(e){//鼠标抬起
       // console.log(e,'mouseupmouseup')
     },
     mouseenter(e){//鼠标进入
         let obj=this.offsetNew(e)
-        this.Visual.left=obj.x
+        this.Visual.left=obj.x+obj.scrollLeft
         if(this.generateShuji.status){
           this.Visual.display=true
 
         }else{
           this.Visual.display=true
-          this.Visual.left=obj.x
+          this.Visual.left=obj.x+obj.scrollLeft
         }
     },
     mouseleave(e){//鼠标移出
       // console.log(e,'mouseleavemouseleave')
       this.initstatus()
     },
-    mousemove(e) {//鼠标移动
+    mouseenter_layer(e,id){
+      for (let i = 0; i < this.bookArr.length; i++) {
+        let item=this.bookArr[i]
+        if(item.id===id){
+          item.Visual_book_zi=true
+        }
+      }
+    },
+    mouseleave_layer(e,id){
+      console.log(e,id,'mouseleave_layer')
+      this.bookArr
+      for (let i = 0; i < this.bookArr.length; i++) {
+        let item=this.bookArr[i]
+        if(item.id===id){
+          item.Visual_book_zi=false
+        }
+      }
+
+    },
+    mousemove(e,id) {//鼠标移动
 
       if(this.generateShuji.status){
         let obj=this.offsetNew(e)
-        this.Visual.left=obj.x+obj.scrollLeft-2
-        let a=parseInt(obj.y/100)
-        this.Visual.top=a*100
+        this.Visual.left=mouse.offset(e).x-2
+        this.Visual.left1=obj.x-2
+        console.log(mouse.offset(e),'offset',obj)
 
-        this.positionObj.left=obj.x+obj.scrollLeft//添加位置
-        this.positionObj.tail=obj.x+this.form.width//尾部位置
+        this.positionObj.left=mouse.offset(e).x//添加位置
+        this.positionObj.tail=mouse.offset(e).x+this.form.width//尾部位置
 
-        if(mouse.client(e).y>this.form.layer*100){
-          this.Visual.display=false
-        }else{
-          this.Visual.display=true
-        }
+        // if((obj.y+obj.scrollTop)>this.form.layer*100){
+        //   this.Visual.display=false
+        // }else{
+        //   this.Visual.display=true
+        // }
       }else{
         let obj=this.offsetNew(e)
-        this.Visual.left=obj.x
+        this.Visual.left=obj.x+obj.scrollLeft
       }
     },
 
@@ -126,14 +149,16 @@ export default {
 
     },
     mouseenterbook(e){
-      // console.log('进入书籍中')
+      console.log('进入书籍中')
     },
     mouseleavebook(e){
-      // console.log('移出书籍中')
+      console.log('移出书籍中')
     },
     // 层点击
     layerClick(id){
-
+      if(!this.generateShuji.status){
+        return
+      }
       let obj={
         ...JSON.parse(JSON.stringify(this.bookObj))
       }

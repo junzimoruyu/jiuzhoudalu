@@ -17,44 +17,63 @@
     <div id="jiazi" 
       @mouseup="mouseup"
       @mousedown="mousedown"
-      @mousemove="mousemove"
+      
       @mouseleave="mouseleave"
       @mouseenter="mouseenter"
 
-    >
-      <div id="juti" :style="layerStyle"  >
-         <!-- <el-button type="primary" size="medium" round>Info</el-button> -->
-          <div class="layer "  
-              v-for="(item,index) in bookArr" 
-              :key="item.id"
-              :class="`biaoshi${index}`"
-              @click="layerClick(item.id)"
-              
-          >
-              <div class="book" 
-                  v-for="(data,inde) in item.children"
-                  :key="inde"
-                  :style="{left:data.left+'px',width:data.width+'px'}"
-                  @mouseenter="mouseenterbook"
-                  @mouseleave="mouseleavebook"
+    > 
+
+      <div id="juti_fn">
+
+          <div id="juti" :style="layerStyle"  >
+            <!-- <el-button type="primary" size="medium" round>Info</el-button> -->
+              <div class="layer "  
+                  v-for="(item,index) in bookArr" 
+                  :key="item.id"
+                  :class="`biaoshi${index}`"
+                  @mousemove="mousemove($event,item.id)"
+                  @mouseenter="mouseenter_layer($event,item.id)"
+                  @mouseleave="mouseleave_layer($event,item.id)"
+                  @click="layerClick(item.id)"
+                  
               >
-                  {{data.author}}
-                  {{data.name}}
-                  {{data.type}}
-                  {{data.time}}
+                  <div class="book" 
+                      v-for="(data,inde) in item.children"
+                      :key="inde"
+                      :style="{left:data.left+'px',width:data.width+'px',pointerEvents:generateShuji.status?'none':'auto'}"
+                      @mouseenter="mouseenterbook"
+                      @mouseleave="mouseleavebook"
+                  >
+                      {{data.author}}
+                      {{generateShuji.status?'none':'auto'}}
+                      {{generateShuji.status?'':mouseenterbook}}
+                      {{data.name}}
+                      {{data.type}}
+                      {{data.time}}
+
+                      <div class="book_btn">
+                        <div class="book_btn1">删除</div>
+                        <div class="book_btn2">其他</div>
+                      </div>
+                  </div>
+
+                  <div class="Visual_book_zi flex" 
+                      v-show="item.Visual_book_zi&&generateShuji.status"
+                      :style="{left:imitateBookStyle.left,width:form.width+'px',pointerEvents:'none'}"
+                  >
+                    <span>{{imitateBookStyle.text}}</span>
+                  </div>
               </div>
           </div>
+          <!-- <div class="Visualline" :style="Visualline">
+          </div> -->
+          <div class="Visual_book flex" 
+              v-if="generateShuji.status"
+              :style="{left:imitateBookStyle.left1,width:imitateBookStyle.width,display:imitateBookStyle.display}"
+              style="pointer-events: none;" 
 
-      </div>
-      <!-- <div class="Visualline" :style="Visualline">
-      </div> -->
-      <div class="Visual_book flex" 
-          v-if="generateShuji.status"
-          :style="{left:imitateBookStyle.left,width:imitateBookStyle.width,display:imitateBookStyle.display}"
-          style="pointer-events: none;" 
-
-      >
-          <div class="Visual_book_zi flex" :style="{top:imitateBookStyle.top}"><span>{{imitateBookStyle.text}}</span></div>
+          >
+          </div>
       </div>
     </div>
     <div id="shuji">
@@ -127,6 +146,7 @@ export default {
 
       layerObj:{
         id:0,//同事代表唯一层数
+        Visual_book_zi:false,
         children:[]
       },
       bookObj:{
@@ -210,6 +230,7 @@ export default {
 
     // 新数据 书
     bookFn(num){
+      this.bookArr=[]
       for (let i = 0; i < num; i++) {
         let obj={
           ...JSON.parse(JSON.stringify(this.layerObj))
@@ -226,6 +247,7 @@ export default {
     },
     generate_no(){
         this.generateShuji.status=false
+        this.$forceUpdate();
     }
     
   },
@@ -250,9 +272,13 @@ export default {
     height: 100%;
     border: 1px solid brown;
     position: relative;
-    overflow: auto;
+    overflow: hidden;
     // flex: 6;
-      
+    #juti_fn{
+      width: 100%;
+      height: 100%;
+      overflow:auto;
+    }
     #juti{
       width: 1200px;
       height: 100%;
@@ -269,7 +295,30 @@ export default {
           // margin: 0 10px;
           position: absolute;
           top: 0;
-
+          .book_btn{
+            position: absolute;
+            right: -50px;
+            top: 0;
+            display: none;
+            .book_btn1{
+              width: 50px;
+            }
+            .book_btn2{
+              width: 50px;
+            }
+          }
+          &:hover{
+            .book_btn{
+              display: block;
+            }
+          }
+        }
+        .Visual_book_zi{
+            // width: 100%;
+            height: 100px;
+            background: antiquewhite;
+            position: absolute;
+            top: 0;
         }
       }
     }
@@ -289,14 +338,7 @@ export default {
       border: 1px solid wheat;
       position: absolute;
       top: 0;
-
-      .Visual_book_zi{
-        width: 100%;
-        height: 100px;
-        background: antiquewhite;
-        position: absolute;
-        left: 0;
-      }
+      
     }
   }
   #shuji{
@@ -306,7 +348,7 @@ export default {
     // border: 1px solid slateblue;
     .zhushi{
       padding: 0;
-      margin: 0;
+      margin: 0 ;
       color:red;
       height: 20px;
       line-height: 20px;
