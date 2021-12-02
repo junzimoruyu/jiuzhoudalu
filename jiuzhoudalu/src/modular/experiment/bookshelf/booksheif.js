@@ -133,24 +133,19 @@ export default {
     },
     // 层点击
     layerClick(id){
-      console.log(id)
 
       let obj={
         ...JSON.parse(JSON.stringify(this.bookObj))
       }
-      console.log(this.positionObj)
-      console.log(obj)
       obj.left=this.positionObj.left-2
       obj.tail=this.positionObj.tail
       obj.width=this.form.width
-      console.log(obj.left,'obj.left',obj.tail,'obj.tail')
       for (let i = 0; i < this.bookArr.length; i++) {
         let item=this.bookArr[i]
         if(item.id===id){
           let k=true
           for (let a = 0; a < item.children.length; a++) {
             let Citem = item.children[a];
-            console.log(Citem.left,'left',Citem.tail,'tail')
             if(
               Citem.tail>obj.left&&obj.left>Citem.left || 
               Citem.tail>obj.tail&&obj.tail>Citem.left 
