@@ -39,6 +39,14 @@ body,
   box-sizing: border-box;
   overflow: hidden;
 }
+div,
+a,
+ul,
+li,
+p,
+span{
+  box-sizing: border-box;
+}
 
 #app{
  
