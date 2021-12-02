@@ -34,6 +34,15 @@ class mouseOptions {
     }
   }
 
+  domClientRect(e){
+    return {
+      left:e.left,
+      top:e.top,
+      right:e.right,
+      bottom:e.bottom
+    }
+  }
+
 }
 
 

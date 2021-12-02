@@ -12,29 +12,45 @@
  -->
   <div id="bookshelf">
     <!-- 书架 -->
+    <!--     @mouseup="mouseup"
+      @mousedown="mousedown" -->
     <div id="jiazi" 
       @mouseup="mouseup"
       @mousedown="mousedown"
       @mousemove="mousemove"
       @mouseleave="mouseleave"
       @mouseenter="mouseenter"
+
     >
-      <div id="juti" :style="layerStyle">
+      <div id="juti" :style="layerStyle"  >
          <!-- <el-button type="primary" size="medium" round>Info</el-button> -->
-          <div class="layer"  
-              v-for="(item,index) in generateShuji.layer" 
-              :key="index"
-              style="pointer-events: none;" 
+          <div class="layer "  
+              v-for="(item,index) in bookArr" 
+              :key="item.id"
+              :class="`biaoshi${index}`"
+              @click="layerClick(item.id)"
+              
           >
-              <div class="book"></div>
+              <div class="book" 
+                  v-for="(data,inde) in item.children"
+                  :key="inde"
+                  :style="{left:data.left+'px',width:data.width+'px'}"
+                  @mouseenter="mouseenterbook"
+                  @mouseleave="mouseleavebook"
+              >
+                  {{data.author}}
+                  {{data.name}}
+                  {{data.type}}
+                  {{data.time}}
+              </div>
           </div>
 
       </div>
-      <div class="Visualline" :style="Visualline">
-      </div>
+      <!-- <div class="Visualline" :style="Visualline">
+      </div> -->
       <div class="Visual_book flex" 
           v-if="generateShuji.status"
-          :style="{left:imitateBookStyle.left,width:imitateBookStyle.width}"
+          :style="{left:imitateBookStyle.left,width:imitateBookStyle.width,display:imitateBookStyle.display}"
           style="pointer-events: none;" 
 
       >
@@ -92,10 +108,10 @@ export default {
     return {
       form:{
         name:"默认",
-        width:'',
+        width:200,
         height:100,
-        layer:0,
-        shelfW:0,
+        layer:5,
+        shelfW:2000,
       },
 
       generateShuji:{
@@ -105,6 +121,22 @@ export default {
         height:0,
         layer:0,
         shelfW:0,
+      },
+
+      bookArr:[],
+
+      layerObj:{
+        id:0,//同事代表唯一层数
+        children:[]
+      },
+      bookObj:{
+        name:"名称",
+        type:"类型",
+        author:"作者",
+        time:"2021/02/22",
+        width:0,
+        left:0,
+        tail:0,
       },
 
 
@@ -168,12 +200,28 @@ export default {
               }
             }
             this.generateShuji.status=true
+            this.bookFn(this.form.layer)
         } else {
             return false;
         }
       });
    
     },
+
+    // 新数据 书
+    bookFn(num){
+      for (let i = 0; i < num; i++) {
+        let obj={
+          ...JSON.parse(JSON.stringify(this.layerObj))
+        }
+        obj.id=i+''+(new Date()).getTime()
+        obj.children.push(JSON.parse(JSON.stringify(this.bookObj)))
+        this.bookArr.push(obj)
+      }
+      console.log(this.bookArr)
+    },
+
+
     checkfun(){
     },
     generate_no(){
@@ -213,11 +261,14 @@ export default {
         height: 100px;
         background: gray;
         border: 1px solid white;
+        position: relative;
         .book{
           width: 100px;
           height: 100px;
           border: 1px solid red;
-          margin: 0 10px;
+          // margin: 0 10px;
+          position: absolute;
+          top: 0;
 
         }
       }
