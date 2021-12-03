@@ -112,6 +112,11 @@
       </div>
       
 
+      <span>{{text_xiazi}}</span>
+      <el-button type="primary" round @click="xiazai">下载实验</el-button>
+      
+      
+
     </div>
   </div>
 </template>
@@ -132,6 +137,7 @@ export default {
         layer:5,
         shelfW:2000,
       },
+      text_xiazi:'这是下载内容',
 
       generateShuji:{
         status:false,
@@ -208,6 +214,40 @@ export default {
   },
 
   methods: {
+
+    xiazai(){
+      console.log('aaaaaaaaaaaa')
+      let obj={
+        type:"实验保存",
+        name:"jiuzhou",
+        text:"就这大陆"
+      }
+      let str=this.text_xiazi
+      if(false){
+              let a=document.createElement('a')
+              a.download=+new Date()+'.txt'
+              a.style.display='none'
+
+              // let c=new Blob([JSON.stringify(obj)])
+              let c=new Blob([str])
+              a.href=URL.createObjectURL(c)
+              document.body.appendChild(a)
+              a.click()
+              document.body.removeChild(a)
+
+      }else{
+              var elementA = document.createElement('a');
+              elementA.setAttribute('href', 'data:text/plain;charset=utf-8,' + JSON.stringify(str));
+              elementA.setAttribute('download', +new Date() + ".txt");
+              elementA.style.display = 'none';
+              document.body.appendChild(elementA);
+              elementA.click();
+              document.body.removeChild(elementA);
+
+      }
+    },
+
+
     generate(){
       // this.form.name='aaaaaaaaaaaa'
       console.log(this.form,'sss')
