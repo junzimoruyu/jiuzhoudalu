@@ -41,68 +41,71 @@ export default {
           `
         },
         {
-          name:"",
-          text:""
+          name:"路由模式 有何不同",
+          text:`
+            hash模式：通过#号后面的内容的更改，触发hashchange事件，实现路由切换 <br />
+            history模式：通过pushState和replaceState切换url，触发popstate事件，实现路由切换，需要后端配合 <br />
+          `
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
         {
           name:"",
-          text:""
+          text:``
         },
 
 
@@ -110,7 +113,7 @@ export default {
 
         {
           name:"",
-          text:""
+          text:``
         },
       ]
     };
