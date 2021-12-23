@@ -6,6 +6,10 @@
       <div v-html="item.text" style="font-size: 22px;">
       </div>
     </div>
+    <div>
+      <h1>实验数据</h1>
+      {{si}}
+    </div>
   </div>
 </template>
 
@@ -14,6 +18,8 @@ export default {
   name: 'textNote',
 
   data() {
+    this.si="aaaaaaaa"
+    // Object.freeze
     return {
       br:" <br /> ",
       arr:[
@@ -48,36 +54,66 @@ export default {
           `
         },
         {
-          name:"",
-          text:``
+          name:"动态class，动态style",
+          text:`动态class对象：<div :class="{ 'is-active': true, 'red': isRed }"></div> <br />
+              动态class数组：<div :class="['is-active', isRed ? 'red' : '' ]"></div> <br />
+              动态style对象：<div :style="{ color: textColor, fontSize: '18px' }"></div> <br />
+              动态style数组：<div :style="[{ color: textColor, fontSize: '18px' }, { fontWeight: '300' }]"></div> <br />
+          `
         },
         {
-          name:"",
-          text:``
+          name:"vuex的有哪些属性？用处是什么",
+          text:`
+            State：定义了应用状态的数据结构，可以在这里设置默认的初始状态。<br />
+            Getter：允许组件从 Store 中获取数据，mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性。<br />
+            Mutation：是唯一更改 store 中状态的方法，且必须是同步函数。<br />
+            Action：用于提交 mutation，而不是直接变更状态，可以包含任意异步操作。<br />
+            Module：允许将单一的 Store 拆分为多个 store 且同时保存在单一的状态树中。<br />
+          `
         },
         {
-          name:"",
-          text:``
+          name:"watch有哪些属性，分别有什么用",
+          text:`
+            handler () { // 执行回调 <br />
+                // do something <br />
+            }, <br />
+            deep: true, // 是否进行深度监听 <br />
+            immediate: true // 是否初始执行handler函数 <br />
+          `
         },
         {
-          name:"",
-          text:``
+          name:"父子组件生命周期顺序",
+          text:`
+            父beforeCreate -> 父created -> 父beforeMount -> 子beforeCreate -> 子created -> 子beforeMount -> 子mounted -> 父mounted
+          `
         },
         {
-          name:"",
-          text:``
+          name:"对象新属性无法更新视图，删除属性无法更新视图",
+          text:`
+            原因：Object.defineProperty没有对对象的新属性进行属性劫持 <br />
+            对象新属性无法更新视图：使用Vue.$set(obj, key, value)，组件中this.$set(obj, key, value) <br />
+            删除属性无法更新视图：使用Vue.$delete(obj, key)，组件中this.$delete(obj, key) <br />
+
+            直接arr[index] = xxx无法更新视图<br />
+            Vue没有对数组进行Object.defineProperty的属性劫持，<br />
+            使用数组的splice方法，arr.splice(index, 1, item) 或 使用Vue.$set(arr, index, value) <br />
+          `
         },
         {
-          name:"",
-          text:``
+          name:"自定义指令",
+          text:`
+            <a href="https://www.cnblogs.com/lzq035/p/14183553.html">8个非常实用的Vue自定义指令</a>
+          `
         },
         {
-          name:"",
-          text:``
+          name:"插槽的使用以及原理",
+          text:`
+            <a href="https://juejin.cn/post/6949848530781470733">「Vue源码学习」你真的知道插槽Slot是怎么“插”的吗</a>
+          `
         },
         {
-          name:"",
-          text:``
+          name:"取data中某一个数据的初始状态",
+          text:`this.$options.data().xxxx`
         },
         {
           name:"",
