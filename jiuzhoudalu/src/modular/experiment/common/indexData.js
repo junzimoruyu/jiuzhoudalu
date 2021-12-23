@@ -11,6 +11,10 @@ const arr = [
     name:"bookshelf",
     label:"书架实验",
   },
+  {
+    name:"textNote",
+    label:"笔记",
+  },
 ]
 
 export default JSON.parse(JSON.stringify(arr))

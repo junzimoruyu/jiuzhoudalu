@@ -1,5 +1,16 @@
 
 
+
+const textNote={
+  path: 'textNote',
+  name: 'textNote',
+  meta: {
+    label: '书架'
+  },
+  component:(e) => import(/* webpackChunkName: "experiment" */ '@/modular/experiment/textNote') 
+
+}
+
 const bookshelf={
   path: 'bookshelf',
   name: 'bookshelf',
@@ -39,5 +50,5 @@ export default {
   // component(resolve) {
   //     require.ensure([], () => resolve(require('@/modular/bookshelf/')), 'frontVip');
   // },
-  children: [bookshelf,msb]
+  children: [bookshelf,msb,textNote]
 };
