@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="biji">
     <h1>笔记</h1>
     <div v-for="(item,index) in  arr" :key="index">
       <h3>{{item.name}}</h3>
@@ -116,8 +116,12 @@ export default {
           text:`this.$options.data().xxxx`
         },
         {
-          name:"",
-          text:``
+          name:"为什么不推荐用 index 做 key",
+          text:`
+            key 的作用:Vue 中使用虚拟 dom 且根据 diff 算法进行新旧 DOM 对比，从而更新真实 dom ，key 是虚拟 DOM 对象的唯一标识, 在 diff 算法中 key 起着极其重要的作用. <br />
+            key 在 diff 算法中的角色: 就是判断是不是相同节点  <br />
+          
+          `
         },
         {
           name:"",
@@ -160,10 +164,22 @@ export default {
   },
 
   methods: {
+    time(){
+      /*
+        80s
+        80%60 = 1
+      
+      */ 
+    }
     
   },
 };
 </script>
 
 <style lang="less" scoped>
+.biji{
+  height: 100%;
+  overflow: auto;
+  padding: 6vw 3vh;
+}
 </style>
